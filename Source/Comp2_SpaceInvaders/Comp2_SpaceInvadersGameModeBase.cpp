@@ -3,3 +3,29 @@
 
 #include "Comp2_SpaceInvadersGameModeBase.h"
 
+AComp2_SpaceInvadersGameModeBase::AComp2_SpaceInvadersGameModeBase()
+{
+	
+}
+
+void AComp2_SpaceInvadersGameModeBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	SetCurrentGameState(EGameState::Running);
+}
+
+void AComp2_SpaceInvadersGameModeBase::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+}
+
+EGameState AComp2_SpaceInvadersGameModeBase::GetGameState() const
+{
+	return CurrentState;
+}
+
+void AComp2_SpaceInvadersGameModeBase::SetCurrentGameState(EGameState NewState)
+{
+	CurrentState = NewState;
+}
