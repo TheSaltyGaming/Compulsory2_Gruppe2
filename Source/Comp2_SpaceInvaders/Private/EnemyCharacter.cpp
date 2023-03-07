@@ -3,6 +3,7 @@
 
 #include "EnemyCharacter.h"
 
+#include "AIHelpers.h"
 #include "SpaceShipPawn.h"
 #include "Components/CapsuleComponent.h"
 
@@ -17,6 +18,8 @@ AEnemyCharacter::AEnemyCharacter()
 	// //Mesh->SetRelativeScale3D(FVector(1,1,1));
 	// Mesh->SetRelativeLocation(FVector(0,0,20));
 	
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+
 
 }
 
@@ -46,14 +49,18 @@ void AEnemyCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Overlap"));
-	if (OtherActor->IsA<ASpaceShipPawn>())
-	{
-		DestroyEnemy();
-	}
+
+	DestroyEnemy();
+	
+	// if (OtherActor->IsA<ASpaceShipPawn>())
+	// {
+	// 	DestroyEnemy();
+	// }
 }
 
 void AEnemyCharacter::DestroyEnemy()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Destroy Enemy Now"));
 	SetActorHiddenInGame(true);
 	SetActorEnableCollision(false);
 	this->Destroy();

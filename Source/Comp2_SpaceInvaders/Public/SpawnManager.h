@@ -30,6 +30,8 @@ public:
 	float lowerSpawn = 0; //Lower bound for random spawn location (can be changed in blueprint)
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Enemy")
 	float upperSpawn = 800; //Upper bound for random spawn location (can be changed in blueprint)
+	
+
 
 private:
 	UPROPERTY(EditAnywhere , Category = "Enemy")
@@ -43,5 +45,6 @@ private:
 
 	UPROPERTY()
 	float spawnRandomLoc = 0; //Random location for enemy to spawn
+	
 
 };
