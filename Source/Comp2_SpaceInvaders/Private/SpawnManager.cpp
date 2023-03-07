@@ -3,7 +3,7 @@
 
 #include "SpawnManager.h"
 
-#include "Enemy.h"
+#include "EnemyCharacter.h"
 
 // Sets default values
 ASpawnManager::ASpawnManager()
@@ -38,6 +38,7 @@ void ASpawnManager::Tick(float DeltaTime)
 void ASpawnManager::SpawnEnemy()
 {
 	spawnRandomLoc = FMath::RandRange(lowerSpawn, upperSpawn);
-	AEnemy *NewEnemy = GetWorld()->SpawnActor<AEnemy>(EnemyClass, FVector(0, spawnRandomLoc, 50), FRotator(0, 0, 0));
+	AEnemyCharacter *NewEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(EnemyClass, FVector(0, spawnRandomLoc, -272), FRotator(0, 0, 0));
+	
 }
 

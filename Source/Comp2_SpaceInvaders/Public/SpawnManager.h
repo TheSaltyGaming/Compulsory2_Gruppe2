@@ -30,18 +30,21 @@ public:
 	float lowerSpawn = 0; //Lower bound for random spawn location (can be changed in blueprint)
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Enemy")
 	float upperSpawn = 800; //Upper bound for random spawn location (can be changed in blueprint)
+	
+
 
 private:
 	UPROPERTY(EditAnywhere , Category = "Enemy")
 	float spawnTimer = 2.0f; //Counts down to 0 before being set back to spawnDelay
 	
 	UPROPERTY(EditAnywhere, Category = "Enemy")
-	TSubclassOf<class AEnemy> EnemyClass;
+	TSubclassOf<class AEnemyCharacter> EnemyClass;
 
 	UPROPERTY(EditAnywhere, Category = "Enemy")
 	float SpawnDelay = 3.0f; //spawn delay in seconds
 
 	UPROPERTY()
 	float spawnRandomLoc = 0; //Random location for enemy to spawn
+	
 
 };

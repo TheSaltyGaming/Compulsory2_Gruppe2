@@ -9,6 +9,8 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputTriggers.h"
+#include "Components/BoxComponent.h"
+
 
 // Sets default values
 ASpaceShipPawn::ASpaceShipPawn()
@@ -16,15 +18,20 @@ ASpaceShipPawn::ASpaceShipPawn()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	ShipMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlayerMesh"));
-	RootComponent = ShipMesh;
-	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
-	SpringArm->SetupAttachment(RootComponent);
-	SpringArm->bDoCollisionTest = false;
-	SpringArm->SetUsingAbsoluteRotation(true);
+	ShipMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ShipMesh"));
+	SetRootComponent(ShipMesh);
+	ShipMesh->SetRelativeLocation(FVector(0, 0, 0));
+	ShipMesh->SetRelativeScale3D(FVector(0.5f, 0.5f, 0.5f));
 
-	SpringArm->SetRelativeRotation(FRotator(-30.f, 0.f, 0.f));
+	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
+	Collider->SetupAttachment(RootComponent);
+	Collider->InitBoxExtent(FVector(10,10,10));
+	Collider->OnComponentBeginOverlap.AddDynamic(this, &ASpaceShipPawn::OnOverlap);
+
+	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	SpringArm->SetupAttachment(GetRootComponent());
 	SpringArm->TargetArmLength = 500.f;
+	SpringArm->SetRelativeRotation(FRotator(-30.f, 0.f, 0.f));
 	SpringArm->bEnableCameraLag = true;
 	SpringArm->CameraLagSpeed = 5.f;
 	SpringArm->bUsePawnControlRotation = true;
@@ -33,13 +40,6 @@ ASpaceShipPawn::ASpaceShipPawn()
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
-
-	// static ConstructorHelpers::FObjectFinder<UStaticMesh> Model3D(TEXT("/Game/Assets/Models/MainShip.MainShip"));
-	//
-	// if (Model3D.Succeeded())
-	// {
-	// 	ShipMesh->SetStaticMesh(Model3D.Object);
-	// }
 	
 	Ammo = 15;
 	MaxAmmo = 15;
@@ -47,6 +47,7 @@ ASpaceShipPawn::ASpaceShipPawn()
 	Health = 5;
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
+
 }
 
 // Called when the game starts or when spawned
@@ -123,9 +124,9 @@ void ASpaceShipPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 		EnhanceInputCom->BindAction(IA_Shoot, ETriggerEvent::Started, this, &ASpaceShipPawn::Shoot);
 		EnhanceInputCom->BindAction(IA_Reload, ETriggerEvent::Started, this, &ASpaceShipPawn::Reload);
-		EnhanceInputCom->BindAction(IA_ResetGame, ETriggerEvent::Started, this, &ASpaceShipPawn::ResetGame);
 	}
 }
+
 
 void ASpaceShipPawn::VerticalMovement(const FInputActionValue& input)
 {
@@ -157,6 +158,11 @@ void ASpaceShipPawn::Damage()
 	}
 }
 
+void ASpaceShipPawn::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Hit"));
+}
+
 
 
 void ASpaceShipPawn::Shoot(const FInputActionValue& input)
@@ -186,9 +192,5 @@ void ASpaceShipPawn::Shoot(const FInputActionValue& input)
 void ASpaceShipPawn::Reload(const FInputActionValue& input)
 {
 	Ammo = MaxAmmo;
-}
-
-void ASpaceShipPawn::ResetGame(const FInputActionValue& val)
-{
 }
 

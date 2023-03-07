@@ -12,7 +12,6 @@ AEnemy::AEnemy()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//Can I just not do this and insead set the collider in the editor? Would be wayy nicer if I could.
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
 	RootComponent = Collider;
 	Collider->InitBoxExtent(FVector(10,10,10));
