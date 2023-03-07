@@ -34,6 +34,8 @@ public:
 
 	void SetCurrentGameState(EGameState NewState);
 
+	float timer;
+
 	
 private:
 	EGameState CurrentState;
