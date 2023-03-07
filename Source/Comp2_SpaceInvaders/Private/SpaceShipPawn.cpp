@@ -4,6 +4,7 @@
 #include "SpaceShipPawn.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Bullet.h"
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -172,7 +173,7 @@ void ASpaceShipPawn::Shoot(const FInputActionValue& input)
 
 		// Gets the local forward vector - normalized
 		FVector Direction = FRotationMatrix(Rotation).GetUnitAxis(EAxis::X);
-			GetWorld()->SpawnActor<AActor>(//add BP for bullet,									// What to spawn
+			GetWorld()->SpawnActor<AActor>(BP_Bullet,							// What to spawn
 										GetActorLocation() + (Direction * 50.f), // Location
 										Rotation);
 			Ammo--;
