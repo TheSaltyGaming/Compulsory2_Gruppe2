@@ -36,7 +36,7 @@ private:
 	float spawnTimer = 2.0f; //Counts down to 0 before being set back to spawnDelay
 	
 	UPROPERTY(EditAnywhere, Category = "Enemy")
-	TSubclassOf<class AEnemy> EnemyClass;
+	TSubclassOf<class AEnemyCharacter> EnemyClass;
 
 	UPROPERTY(EditAnywhere, Category = "Enemy")
 	float SpawnDelay = 3.0f; //spawn delay in seconds
