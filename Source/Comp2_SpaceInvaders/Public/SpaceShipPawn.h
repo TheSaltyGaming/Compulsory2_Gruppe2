@@ -10,6 +10,7 @@ class UStaticMeshComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class USoundBase;
+class ABullet;
 struct FInputActionValue;
 
 UCLASS()
@@ -43,6 +44,11 @@ public:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "SpaceShip")
 	UCameraComponent* Camera;
+
+	
+	/** Blueprints: we set these in our blueprint */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+	TSubclassOf<ABullet> BP_Bullet;
 
 	/* Sound effects */
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "SpaceShip")
