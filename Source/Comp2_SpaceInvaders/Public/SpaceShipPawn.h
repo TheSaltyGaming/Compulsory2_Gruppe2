@@ -11,6 +11,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class USoundBase;
 class ABullet;
+class UBoxComponent;
 struct FInputActionValue;
 
 UCLASS()
@@ -45,6 +46,8 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "SpaceShip")
 	UCameraComponent* Camera;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spaceship")
+	UBoxComponent* Collider {nullptr};
 	
 	/** Blueprints: we set these in our blueprint */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
@@ -78,6 +81,11 @@ public:
 	void Damage();
 
 	
+	UFUNCTION()
+	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+
+	
 private:
 
 	/* Private Variables */
@@ -96,8 +104,6 @@ private:
 
 	void Shoot(const FInputActionValue& input);
 	void Reload(const FInputActionValue& input);
-
-	void ResetGame(const FInputActionValue& val);
 
 public:
 
@@ -125,9 +131,5 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InputSystem)
 	class UInputAction* IA_Reload;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InputSystem)
-	class UInputAction* IA_ResetGame;
-
 
 };
