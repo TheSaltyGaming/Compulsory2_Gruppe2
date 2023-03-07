@@ -154,13 +154,14 @@ void ASpaceShipPawn::Damage()
 	Health--;
 	if (Health <= 0)
 	{
-		// Adding Game over
+		GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, TEXT("You died"));
 	}
 }
 
 void ASpaceShipPawn::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hit"));
+	Damage();
 }
 
 

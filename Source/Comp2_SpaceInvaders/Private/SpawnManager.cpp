@@ -38,7 +38,7 @@ void ASpawnManager::Tick(float DeltaTime)
 void ASpawnManager::SpawnEnemy()
 {
 	spawnRandomLoc = FMath::RandRange(lowerSpawn, upperSpawn);
-	AEnemyCharacter *NewEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(EnemyClass, FVector(0, spawnRandomLoc, -272), FRotator(0, 0, 0));
+	AEnemyCharacter *NewEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(EnemyClass, FVector(522, 1875+spawnRandomLoc, -142), FRotator(0, 0, 0));
 	
 }
 
