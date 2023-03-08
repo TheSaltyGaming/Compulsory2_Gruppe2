@@ -2,6 +2,8 @@
 
 
 #include "Bullet.h"
+
+#include "EnemyCharacter.h"
 #include "Components/SphereComponent.h"
 
 // Sets default values
@@ -12,12 +14,12 @@ ABullet::ABullet()
 
 	Collision = CreateDefaultSubobject<USphereComponent>(TEXT("Collider"));
 	SetRootComponent(Collision);
-	Collision->InitSphereRadius(10.f);
+	Collision->InitSphereRadius(13.f);
 	Collision->OnComponentBeginOverlap.AddDynamic(this, &ABullet::OnOverlap);
 
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
 	StaticMesh->SetupAttachment(GetRootComponent());
-	StaticMesh->SetRelativeScale3D(FVector(0.2f, 0.2f, 0.2f));
+	StaticMesh->SetRelativeScale3D(FVector(0.15f, 0.15f, 0.15f));
 
 	MovementSpeed = 2000.f;
 	TimeLived = 0.f;
@@ -50,7 +52,11 @@ void ABullet::Tick(float DeltaTime)
 
 void ABullet::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	BulletDestroy();
+	UE_LOG(LogTemp, Warning, TEXT("Bullet hit something"));
+		if (OtherActor->IsA<AEnemyCharacter>())
+    	{
+			BulletDestroy();
+    	}
 }
 
 void ABullet::BulletDestroy()

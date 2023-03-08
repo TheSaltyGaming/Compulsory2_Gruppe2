@@ -27,10 +27,17 @@ void ASpawnManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	spawnTimer -= DeltaTime;
+	timer += DeltaTime;
 	if (spawnTimer <= 0)
 	{
 		spawnTimer = SpawnDelay;
 		SpawnEnemy();
+	}
+	if (timer >= 7 && SpawnDelay > 0.4)
+	{
+		timer = 0;
+		SpawnDelay -= 0.3;
+		difficulty++;
 	}
 
 }
@@ -38,7 +45,24 @@ void ASpawnManager::Tick(float DeltaTime)
 void ASpawnManager::SpawnEnemy()
 {
 	spawnRandomLoc = FMath::RandRange(lowerSpawn, upperSpawn);
-	AEnemyCharacter *NewEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(EnemyClass, FVector(522, 1875+spawnRandomLoc, -142), FRotator(0, 0, 0));
+	int randomNum = FMath::RandRange(0, 3);
+	if (randomNum == 0)
+	{
+		AEnemyCharacter *NewEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(EnemyClass, FVector(522, 1875+spawnRandomLoc, -142), FRotator(0, 0, 0));
+
+	}
+	if (randomNum == 1)
+	{
+		AEnemyCharacter *NewEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(EnemyClass, FVector(1922, -1694+spawnRandomLoc, 141), FRotator(0, 0, 0));
+	}
+	if (randomNum == 2)
+	{
+		AEnemyCharacter *NewEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(EnemyClass, FVector(-1937, -2424+spawnRandomLoc, 141), FRotator(0, 0, 0));
+	}
+	if (randomNum == 3)
+	{
+		AEnemyCharacter *NewEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(EnemyClass, FVector(-1937, 2735+spawnRandomLoc, 141), FRotator(0, 0, 0));
+	}
 	
 }
 

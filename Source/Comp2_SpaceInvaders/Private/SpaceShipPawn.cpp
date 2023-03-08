@@ -10,6 +10,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputTriggers.h"
 #include "Components/BoxComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -32,7 +33,7 @@ ASpaceShipPawn::ASpaceShipPawn()
 	SpringArm->SetupAttachment(GetRootComponent());
 	SpringArm->TargetArmLength = 500.f;
 	SpringArm->SetRelativeRotation(FRotator(-30.f, 0.f, 0.f));
-	SpringArm->bEnableCameraLag = true;
+	SpringArm->bEnableCameraLag = false;
 	SpringArm->CameraLagSpeed = 5.f;
 	SpringArm->bUsePawnControlRotation = true;
 
@@ -154,14 +155,18 @@ void ASpaceShipPawn::Damage()
 	Health--;
 	if (Health <= 0)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, TEXT("You died"));
+		GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, TEXT("You died. GAME OVER"));
+		UGameplayStatics::SetGamePaused(GetWorld(),true);
 	}
 }
 
 void ASpaceShipPawn::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hit"));
-	Damage();
+	if (!OtherActor->IsA<ABullet>())
+	{
+		Damage();
+	}
 }
 
 
@@ -174,6 +179,7 @@ void ASpaceShipPawn::Shoot(const FInputActionValue& input)
 		
 		if(Controller != nullptr)
 		{
+			UE_LOG(LogTemp,Warning,TEXT("Controller != nullpointer"))
 			FRotator Rotation = Controller->GetControlRotation();
 			Rotation.Pitch = 0.f;
 			Rotation.Roll = 0.f;
@@ -181,8 +187,9 @@ void ASpaceShipPawn::Shoot(const FInputActionValue& input)
 		// Gets the local forward vector - normalized
 		FVector Direction = FRotationMatrix(Rotation).GetUnitAxis(EAxis::X);
 			GetWorld()->SpawnActor<AActor>(BP_Bullet,							// What to spawn
-										GetActorLocation() + (Direction * 50.f), // Location
+										GetActorLocation() + (Direction * 80.f), // Location
 										Rotation);
+			UE_LOG(LogTemp,Warning,TEXT("Spawned bullet"));
 			Ammo--;
 		}
 

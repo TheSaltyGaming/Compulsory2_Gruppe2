@@ -6,13 +6,13 @@
 #include "GameFramework/GameModeBase.h"
 #include "Comp2_SpaceInvadersGameModeBase.generated.h"
 
-UENUM(BlueprintType)
-enum class EGameState:uint8
-{
-	Running,
-	GameOver,
-	None
-};
+//UENUM(BlueprintType)
+// enum class EGameState:uint8
+// {
+// 	Running,
+// 	GameOver,
+// 	None
+// };
 
 /**
  * 
@@ -30,13 +30,13 @@ public:
 	
 	virtual void Tick(float DeltaSeconds) override;
 	
-	EGameState GetGameState() const;
+	//EGameState GetGameState() const;
 
-	void SetCurrentGameState(EGameState NewState);
+	//void SetCurrentGameState(EGameState NewState);
 
 	float timer;
 
 	
 private:
-	EGameState CurrentState;
+	//EGameState CurrentState;
 };
